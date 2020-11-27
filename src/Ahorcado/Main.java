@@ -6,60 +6,49 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args)  {
-        char salida;
+        String palabraSecreta=getpalabraSecreta();
+        char [] palabraGuiones = getGuionesFromPalabra(palabraSecreta);
 
-        Scanner entrada = new Scanner(System.in);
-
+        boolean juegoTerminado = false;
+        Scanner lector = new Scanner(System.in);
+        int intentos = 5;
 
         do {
-            String palabraSecreta=getpalabraSecreta();
-            char [] palabraGuiones = getGuionesFromPalabra(palabraSecreta);
+            System.out.println("Tienes " +intentos+ " intentos");
+            System.out.println(palabraGuiones);
+            System.out.println("Introduce una letra");
+            char letra = lector.next().charAt(0);
+            boolean algunaLetraAcertada = false;
 
-            boolean juegoTerminado = false;
-            Scanner lector = new Scanner(System.in);
-            int intentos = 5;
-
-            do {
-                System.out.println("Tienes " +intentos+ " intentos");
-                System.out.println(palabraGuiones);
-                System.out.println("Introduce una letra");
-                char letra = lector.next().charAt(0);
-                boolean algunaLetraAcertada = false;
-
-                for (int i = 0; i<palabraSecreta.length(); i++){
-                    if (palabraSecreta.charAt(i) == letra){
-                        palabraGuiones[i] = letra;
-                        algunaLetraAcertada = true;
-                    }
+            for (int i = 0; i<palabraSecreta.length(); i++){
+                if (palabraSecreta.charAt(i) == letra){
+                    palabraGuiones[i] = letra;
+                    algunaLetraAcertada = true;
                 }
-                if (!algunaLetraAcertada){
-                    System.out.println("Fallaste");
-                    --intentos;
-                    if (intentos==0) {
-                        System.out.println("Gana el primer jugador");
-                        juegoTerminado = true;
-                    }
+            }
+            if (!algunaLetraAcertada){
+                System.out.println("Fallaste");
+                --intentos;
+                if (intentos==0) {
+                    System.out.println("Gana el primer jugador");
+                    juegoTerminado = true;
                 }
-                else {
-                    boolean juegoGanado = !hayGuiones(palabraGuiones);
-                    if (juegoGanado) {
-                        System.out.println("Gana el segundo jugador");
-                        juegoTerminado = true;
-                    };
-                }
-            }while (!juegoTerminado);
+            }
+            else {
+                boolean juegoGanado = !hayGuiones(palabraGuiones);
+                if (juegoGanado) {
+                    System.out.println("Gana el segundo jugador");
+                    juegoTerminado = true;
+                };
+            }
+        }while (!juegoTerminado);
 
-            lector.close();
+        lector.close();
 
-            System.out.println("Progrma realizado por 3IV8 Rivas Gutierrez Leonardo");
-            System.out.println("¿Deseas volver a jugar?");
-            salida = entrada.next().charAt(0);
-
-        }while (salida == 's');
     }
 
         static String getpalabraSecreta(){
-            String[]palabras = {"gato"};
+            String[]palabras = {"relampago"};
             Random r = new Random();
             int n = r.nextInt(palabras.length);
             return palabras[n];
